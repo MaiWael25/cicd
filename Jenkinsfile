@@ -40,11 +40,11 @@ pipeline {
             }
         }
 
-         stage('Push Docker Image') {
-             steps {
-                 sh 'docker push java-app:v1'
-             }
-         }
+        // stage('Push Docker Image') {
+          //   steps {
+            //     sh 'docker push java-app:v1'
+            // }
+        // }
 
     }
 }
