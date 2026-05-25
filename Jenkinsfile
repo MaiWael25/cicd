@@ -49,7 +49,7 @@ pipeline {
             steps {
                 script {
                     def x2 = new edu.iti.dockerclass
-                    x2.build("java-app" , "v1")
+                    x2.build("maiwael/java" , "v1")
 
                 }
                // sh 'docker build -t java-app:v1 .'
