@@ -52,14 +52,7 @@
 }
 */
 
-node {
-
- /*   stage('Clone') {
-        git 'https://github.com/yourusername/java-project.git'
-    }
-    */
-
- node('jenkins-agent') {
+node('jenkins-agent') {
 
     stage('Build') {
         sh 'javac App.java'
@@ -82,5 +75,4 @@ node {
     }
 
     cleanWs()
-}
 }
