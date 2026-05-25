@@ -1,4 +1,4 @@
-pipeline {
+/*pipeline {
 
     agent {
         label 'jenkins-agent'
@@ -23,10 +23,12 @@ pipeline {
         }
 
         stage('Archive Java App') {
-            steps {
-                archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
+           */ // steps {
+            //    archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
+            /*
             }
         }
+        
 
         stage('Build Docker Image') {
             steps {
@@ -47,4 +49,31 @@ pipeline {
         // }
 
     }
+}
+*/
+
+node {
+
+ /*   stage('Clone') {
+        git 'https://github.com/yourusername/java-project.git'
+    }
+    */
+
+    stage('Build') {
+        sh 'javac App.java'
+    }
+
+    stage('Run') {
+        sh 'java App'
+    }
+
+    stage('List Files') {
+        sh 'ls -l'
+    }
+
+    stage('Current User') {
+        sh 'whoami'
+    }
+
+    cleanWs()
 }
