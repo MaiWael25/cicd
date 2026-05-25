@@ -59,6 +59,8 @@ node {
     }
     */
 
+ node('jenkins-agent') {
+
     stage('Build') {
         sh 'javac App.java'
     }
@@ -75,5 +77,10 @@ node {
         sh 'whoami'
     }
 
+    stage('Java Version') {
+        sh 'java -version'
+    }
+
     cleanWs()
+}
 }
