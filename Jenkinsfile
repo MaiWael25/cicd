@@ -1,5 +1,5 @@
 @Library('shared-lib') _
-
+/*
 pipeline {
 
     agent {
@@ -27,13 +27,14 @@ pipeline {
                 
             }
         }
-
-        stage('Archive Java App') {
-            steps {
-                archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
+*/
+    //    stage('Archive Java App') {
+      //      steps {
+        //        archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
             
-            }
-        }
+           // }
+       // }
+/*
         stage ('Test Java App')
         {
             steps{
@@ -93,3 +94,64 @@ node {
     }
 }
 */
+pipeline {
+
+    agent {
+        label 'jenkins-agent'
+    }
+
+    tools {
+        jdk 'jdk-11'
+        maven 'maven-354'
+    }
+
+    environment {
+        dockerUsername = credentials('docker-username')
+        dockerPassword = credentials('docker-password')
+    }
+
+    stages {
+
+        stage('Build Java App') {
+            steps {
+                script {
+                    def x = new edu.iti.MavenClass(this)
+                    x.build("clean package -DskipTests")
+                }
+            }
+        }
+
+        stage('Archive Java App') {
+            steps {
+                archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
+            }
+        }
+
+        stage('Test Java App') {
+            steps {
+                script {
+                    def x = new edu.iti.MavenClass(this)
+                    x.test()
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    def x2 = new edu.iti.dockerClass(this)
+                    x2.build("java-app", "v1")
+                }
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                script {
+                    def x2 = new edu.iti.dockerClass(this)
+                    x2.login("${dockerUsername}", "${dockerPassword}")
+                }
+            }
+        }
+    }
+}
