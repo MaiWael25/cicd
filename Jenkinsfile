@@ -53,39 +53,43 @@
 */
 
 node('jenkins-agent') {
-     agent {
-        label 'jenkins-agent'
-    }
 
-    tools {
-        jdk 'jdk-11'
-        maven 'maven-354'
-    }
+    // Define tools
+    def jdkHome = tool name: 'jdk-11', type: 'hudson.model.JDK'
+    def mvnHome = tool name: 'maven-354', type: 'hudson.tasks.Maven$MavenInstallation'
 
-    environment {
-        dockerUsername = credentials('docker-username')
-        dockerPassword = credentials('docker-password')
-    }
+    // Set environment variables
+    env.JAVA_HOME = jdkHome
+    env.PATH = "${jdkHome}/bin:${mvnHome}/bin:${env.PATH}"
 
-    stage('Build') {
-        sh 'javac App.java'
-    }
+    withCredentials([
+        string(credentialsId: 'docker-username', variable: 'DOCKER_USERNAME'),
+        string(credentialsId: 'docker-password', variable: 'DOCKER_PASSWORD')
+    ]) {
 
-    stage('Run') {
-        sh 'java App'
-    }
+        stage('Build Java App') {
+            sh 'mvn package install -DskipTests'
+        }
 
-    stage('List Files') {
-        sh 'ls -l'
-    }
+        
+        stage('Archive Java App') {
+            archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
+        }
+        
 
-    stage('Current User') {
-        sh 'whoami'
-    }
+        stage('Build Docker Image') {
+            sh 'docker build -t java-app:v1 .'
+        }
 
-    stage('Java Version') {
-        sh 'java -version'
-    }
+        stage('Docker Login') {
+            sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+        }
 
-    cleanWs()
+        /*
+        stage('Push Docker Image') {
+            sh 'docker push java-app:v1'
+        }
+        */
+
+    }
 }
