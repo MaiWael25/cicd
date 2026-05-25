@@ -21,7 +21,7 @@ pipeline {
         stage('Build Java App') {
             steps {
                 script{
-                    def x = new.edu.iti.mavenClass()
+                    def x = new edu.iti.mavenClass()
                     x.build("package install -DskipTests")
                 }
                 
