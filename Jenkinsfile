@@ -1,3 +1,4 @@
+@Library('shared-lib') _
 
 pipeline {
 
@@ -19,7 +20,11 @@ pipeline {
 
         stage('Build Java App') {
             steps {
-                sh 'mvn package install -DskipTests'
+                script{
+                    def x = new.edu.iti.mavenClass()
+                    x.build("package install -DskipTests")
+                }
+                
             }
         }
 
@@ -29,16 +34,34 @@ pipeline {
             
             }
         }
+        stage ('Test Java App')
+        {
+            steps{
+                 script{
+                    def x = new.edu.iti.mavenClass()
+                    x.test()                }
+
+            }
+        }
         
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t java-app:v1 .'
+                script {
+                    def x2 = new edu.iti.dockerclass
+                    x2.build("java-app" , "v1")
+
+                }
+               // sh 'docker build -t java-app:v1 .'
             }
         }
 
         stage('Docker Login') {
             steps {
+                script{
+                    def x2 = new edu.iti.dockerclass
+                    x2.login("${dockerUsername}" , "${dockerPassword}" )
+                }
                 sh 'docker login -u ${dockerUsername} -p ${dockerPassword}'
             }
         }
