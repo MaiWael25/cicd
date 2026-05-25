@@ -1,4 +1,4 @@
-/*pipeline {
+pipeline {
 
     agent {
         label 'jenkins-agent'
@@ -23,9 +23,9 @@
         }
 
         stage('Archive Java App') {
-           */ // steps {
-            //    archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
-            /*
+            steps {
+                archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
+            
             }
         }
         
@@ -50,8 +50,8 @@
 
     }
 }
-*/
 
+/*
 node('jenkins-agent') {
 
     // Define tools
@@ -71,12 +71,12 @@ node('jenkins-agent') {
             sh 'mvn package install -DskipTests'
         }
 
+        */
+        //stage('Archive Java App') {
+        //    archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
+       // }
         
-        stage('Archive Java App') {
-            archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
-        }
-        
-
+/*
         stage('Build Docker Image') {
             sh 'docker build -t java-app:v1 .'
         }
@@ -85,11 +85,12 @@ node('jenkins-agent') {
             sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
         }
 
-        /*
+        
         stage('Push Docker Image') {
             sh 'docker push java-app:v1'
         }
-        */
+        
 
     }
 }
+*/
