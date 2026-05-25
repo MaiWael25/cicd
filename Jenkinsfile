@@ -70,7 +70,7 @@ node('jenkins-agent') {
     ]) {
 
         stage('Build Java App') {
-            sh 'mvn package install -DskipTests'
+            sh 'mvn clean install -DskipTests'
         }
 
         
