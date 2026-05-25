@@ -53,6 +53,19 @@
 */
 
 node('jenkins-agent') {
+     agent {
+        label 'jenkins-agent'
+    }
+
+    tools {
+        jdk 'jdk-11'
+        maven 'maven-354'
+    }
+
+    environment {
+        dockerUsername = credentials('docker-username')
+        dockerPassword = credentials('docker-password')
+    }
 
     stage('Build') {
         sh 'javac App.java'
