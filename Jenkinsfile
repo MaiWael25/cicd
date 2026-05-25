@@ -56,23 +56,16 @@ pipeline {
 
 node {
 
-    def mvnHome = tool 'Maven'
-
     stage('Clone Repository') {
         git branch: 'main',
         url: 'https://github.com/MaiWael25/cicd.git'
     }
 
     stage('Build') {
-        sh 'echo Building application...'
-        sh "${mvnHome}/bin/mvn clean package"
+        sh 'mvn clean package'
     }
 
     stage('Test') {
-        sh "${mvnHome}/bin/mvn test"
-    }
-
-    stage('Done') {
-        echo 'Pipeline completed successfully!'
+        sh 'mvn test'
     }
 }
