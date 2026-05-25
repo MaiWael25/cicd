@@ -1,4 +1,4 @@
-/*
+
 pipeline {
 
     agent {
@@ -21,15 +21,15 @@ pipeline {
             steps {
                 sh 'mvn package install -DskipTests'
             }
-        }*/
+        }
 
-        //stage('Archive Java App') {
-          //  steps {
-            //    archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
+        stage('Archive Java App') {
+            steps {
+                archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
             
-          //  }
-       // }
-        /*
+            }
+        }
+        
 
         stage('Build Docker Image') {
             steps {
@@ -51,9 +51,9 @@ pipeline {
 
     }
 }
-*/
 
 
+/*
 node {
 
     stage('Clone Repository') {
@@ -69,3 +69,4 @@ node {
         sh 'mvn test'
     }
 }
+*/
