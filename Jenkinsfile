@@ -38,7 +38,7 @@ pipeline {
         {
             steps{
                  script{
-                    def x = new.edu.iti.mavenClass()
+                    def x = new edu.iti.mavenClass()
                     x.test()                }
 
             }
