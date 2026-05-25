@@ -115,7 +115,7 @@ pipeline {
         stage('Build Java App') {
             steps {
                 script {
-                    def x = new edu.iti.MavenClass(this)
+                    def x = new edu.iti.mavenClass(this)
                     x.build("clean package -DskipTests")
                 }
             }
@@ -130,7 +130,7 @@ pipeline {
         stage('Test Java App') {
             steps {
                 script {
-                    def x = new edu.iti.MavenClass(this)
+                    def x = new edu.iti.mavenClass(this)
                     x.test()
                 }
             }
@@ -139,7 +139,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def x2 = new edu.iti.dockerClass(this)
+                    def x2 = new edu.iti.dockerclass(this)
                     x2.build("java-app", "v1")
                 }
             }
@@ -148,7 +148,7 @@ pipeline {
         stage('Docker Login') {
             steps {
                 script {
-                    def x2 = new edu.iti.dockerClass(this)
+                    def x2 = new edu.iti.dockerclass(this)
                     x2.login("${dockerUsername}", "${dockerPassword}")
                 }
             }
