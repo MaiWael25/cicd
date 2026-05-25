@@ -62,7 +62,7 @@ pipeline {
                     def x2 = new edu.iti.dockerclass
                     x2.login("${dockerUsername}" , "${dockerPassword}" )
                 }
-                sh 'docker login -u ${dockerUsername} -p ${dockerPassword}'
+              //  sh 'docker login -u ${dockerUsername} -p ${dockerPassword}'
             }
         }
 
